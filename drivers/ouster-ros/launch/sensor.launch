@@ -11,7 +11,7 @@
     RNG19_RFL8_SIG16_NIR16,
     RNG15_RFL8_NIR8
     }"/>
-  <arg name="lidar_mode" default=" " doc="resolution and rate; possible values: {
+  <arg name="lidar_mode" default="1024x20" doc="resolution and rate; possible values: {
     512x10,
     512x20,
     1024x10,
@@ -34,6 +34,8 @@
     doc="request no bond setup when nodelets are created"/>
   <arg if="$(arg no_bond)" name="_no_bond" value="--no-bond"/>
   <arg unless="$(arg no_bond)" name="_no_bond" value="" />
+
+  <remap from="/ouster/points" to="/sensing/lidar/point_cloud_raw"/>
 
   <group ns="$(arg ouster_ns)">
     <node pkg="nodelet" type="nodelet" name="os_nodelet_mgr"

@@ -89,9 +89,9 @@ class OusterCloud : public nodelet::Nodelet {
         auto tf_prefix = pnh.param("tf_prefix", std::string{});
         if (is_arg_set(tf_prefix) && tf_prefix.back() != '/')
             tf_prefix.append("/");
-        sensor_frame = tf_prefix + "os_sensor";
-        imu_frame = tf_prefix + "os_imu";
-        lidar_frame = tf_prefix + "os_lidar";
+        sensor_frame = "os_sensor";
+        imu_frame = "os_imu";
+        lidar_frame = "lidar";
         auto timestamp_mode_arg = pnh.param("timestamp_mode", std::string{});
         use_ros_time = timestamp_mode_arg == "TIME_FROM_ROS_TIME";
     }
@@ -191,15 +191,15 @@ class OusterCloud : public nodelet::Nodelet {
                             cloud, i);
             pcl_toROSMsg(cloud, *pc_ptr);
             pc_ptr->header.stamp = msg_ts;
-            pc_ptr->header.frame_id = sensor_frame;
+            pc_ptr->header.frame_id = lidar_frame;
             lidar_pubs[i].publish(pc_ptr);
         }
 
-        tf_bcast.sendTransform(ouster_ros::transform_to_tf_msg(
-            info.lidar_to_sensor_transform, sensor_frame, lidar_frame, msg_ts));
+        //tf_bcast.sendTransform(ouster_ros::transform_to_tf_msg(
+            //info.lidar_to_sensor_transform, sensor_frame, lidar_frame, msg_ts));
 
-        tf_bcast.sendTransform(ouster_ros::transform_to_tf_msg(
-            info.imu_to_sensor_transform, sensor_frame, imu_frame, msg_ts));
+        //tf_bcast.sendTransform(ouster_ros::transform_to_tf_msg(
+            //info.imu_to_sensor_transform, sensor_frame, imu_frame, msg_ts));
     }
 
     uint64_t impute_value(int last_scan_last_nonzero_idx,
