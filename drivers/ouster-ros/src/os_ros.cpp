@@ -181,7 +181,7 @@ void copy_scan_to_cloud(ouster_ros::Cloud& cloud, const ouster::LidarScan& ls,
 #ifdef __OUSTER_UTILIZE_OPENMP__
 #pragma omp parallel for collapse(2)
 #endif
-    for (auto u = 20; u < ls.h - 50; u++) {
+    for (auto u = 10; u < ls.h - 40; u++) {
         for (auto v = 0; v < ls.w; v++) {
             const auto col_ts = std::chrono::nanoseconds(timestamp[v]);
             const auto ts = col_ts > scan_ts ? col_ts - scan_ts : t_zero;
