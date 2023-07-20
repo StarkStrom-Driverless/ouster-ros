@@ -158,9 +158,10 @@ class OusterCloud : public nodelet::Nodelet {
         };
 
         lidar_pubs.resize(n_returns);
+
         for (int i = 0; i < n_returns; i++) {
-            auto pub = nh.advertise<sensor_msgs::PointCloud2>(
-                std::string("points") + img_suffix(i), 10);
+            const std::string topic_name = std::string("points") + img_suffix(i);
+            auto pub = nh.advertise<sensor_msgs::PointCloud2>(topic_name, 1);
             lidar_pubs[i] = pub;
         }
     }
